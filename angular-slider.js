@@ -94,9 +94,19 @@
         ngModelHigh: '=?',
         translate: '&'
       },
-      template: '<span class="bar"></span><span class="bar selection"></span><span class="pointer"></span><span class="pointer"></span><span class="bubble selection"></span><span class="bubble"></span><span class="bubble"></span><span class="bubble"></span>',
+      template: '<span class="bar"></span>' +
+        '<span class="bar selection"></span>' +
+        '<span class="pointer"></span>' +
+        '<span class="pointer"></span>' +
+        '<span class="bubble selection"></span>' +
+        '<span ng-bind-html="translate({value: floor})" class="bubble limit"></span>' +
+        '<span ng-bind-html="translate({value: ceiling})" class="bubble limit"></span>' +
+        '<span class="bubble"></span>' +
+        '<span class="bubble"></span>' +
+        '<span class="bubble"></span>' +
+        '<span class="selected-bg"></span>',
       compile: function(element, attributes) {
-        var ceilBub, cmbBub, e, flrBub, fullBar, highBub, lowBub, maxPtr, minPtr, range, refHigh, refLow, selBar, selBub, watchables, _i, _len, _ref, _ref1;
+        var ceilBub, cmbBub, e, flrBub, fullBar, highBub, lowBub, maxPtr, minPtr, range, refHigh, refLow, selBar, selBub, watchables, _i, _len, _ref, _ref1, selectedBg;
 
         if (attributes.translate) {
           attributes.$set('translate', "" + attributes.translate + "(value)");
@@ -112,7 +122,8 @@
             _results.push(angularize(e));
           }
           return _results;
-        })(), fullBar = _ref[0], selBar = _ref[1], minPtr = _ref[2], maxPtr = _ref[3], selBub = _ref[4], flrBub = _ref[5], ceilBub = _ref[6], lowBub = _ref[7], highBub = _ref[8], cmbBub = _ref[9];
+        })(),
+        fullBar = _ref[0], selBar = _ref[1], minPtr = _ref[2], maxPtr = _ref[3], selBub = _ref[4], flrBub = _ref[5], ceilBub = _ref[6], lowBub = _ref[7], highBub = _ref[8], cmbBub = _ref[9], selectedBg=_ref[10];
         refLow = range ? 'ngModelLow' : 'ngModel';
         refHigh = 'ngModelHigh';
         bindHtml(selBub, "'Range: ' + translate({value: diff})");
@@ -183,11 +194,13 @@
               };
               setPointers = function() {
                 var newHighValue, newLowValue;
-
                 offset(ceilBub, pixelize(barWidth - width(ceilBub)));
                 newLowValue = percentValue(scope[refLow]);
                 offset(minPtr, percentToOffset(newLowValue));
                 offset(lowBub, pixelize(offsetLeft(minPtr) - (halfWidth(lowBub)) + pointerHalfWidth));
+                selectedBg.css({
+                  width: pixelize(offsetLeft(minPtr) + pointerHalfWidth)
+                });
                 if (range) {
                   newHighValue = percentValue(scope[refHigh]);
                   offset(maxPtr, percentToOffset(newHighValue));
@@ -258,7 +271,6 @@
                 };
                 onMove = function(event) {
                   var eventX, newOffset, newPercent, newValue;
-
                   eventX = event.clientX || event.touches[0].clientX;
                   newOffset = eventX - element[0].getBoundingClientRect().left - pointerHalfWidth;
                   newOffset = Math.max(Math.min(newOffset, maxOffset), minOffset);

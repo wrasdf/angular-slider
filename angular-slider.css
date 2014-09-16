@@ -43,6 +43,13 @@ slider span.bar.selection {
   -webkit-box-shadow: none;
   box-shadow: none;
 }
+slider span.selected-bg{
+  background: #f00;
+  width: 0%;
+  z-index:1;
+  display: block;
+  height: 7px;
+}
 slider span.pointer {
   cursor: pointer;
   width: 20px;
