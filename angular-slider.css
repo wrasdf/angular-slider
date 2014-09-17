@@ -44,10 +44,19 @@ slider span.bar.selection {
   box-shadow: none;
 }
 slider span.selected-bg{
-  background: #f00;
   width: 0%;
   z-index:1;
   display: block;
+  -webkit-border-radius: 1em/1em;
+  border-radius: 1em/1em;
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0, #13b6ff), color-stop(1, #00a8f3));
+  background: -webkit-linear-gradient(top, #13b6ff 0, #00a8f3 100%);
+  background: -moz-linear-gradient(top, #13b6ff 0, #00a8f3 100%);
+  background: -o-linear-gradient(top, #13b6ff 0, #00a8f3 100%);
+  background: -ms-linear-gradient(top, #13b6ff 0, #00a8f3 100%);
+  background: linear-gradient(top, #13b6ff 0, #00a8f3 100%);
+  -webkit-box-shadow: none;
+  box-shadow: none;
   height: 7px;
 }
 slider span.pointer {
